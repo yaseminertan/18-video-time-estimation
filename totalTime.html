@@ -186,7 +186,23 @@
     </div>
   </body>
   <script>
-    const videos = document.querySelectorAll("[data-time]");
-    console.log(videos);
+    const videos = Array.from(document.querySelectorAll("[data-time]"));
+    const times = videos
+      .map((item) => item.dataset.time) // take data-time property of list items
+      .map((item) => {
+        const [min, sec] = item.split(":").map(parseFloat); // convert string time property to number
+        return min * 60 + sec; // convert all times to seconds
+      })
+      .reduce((total, item) => {
+        // get total time in seconds
+        return total + item;
+      });
+
+    const hours = Math.floor(times / 3600);
+    const mins = Math.floor((times % 3600) / 60);
+    const secs = times % 60;
+
+    console.log(`Total time: ${hours} hours,
+     ${mins} minutes, ${secs} seconds`);
   </script>
 </html>
